@@ -1,0 +1,30 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Zig
+        uses: mlugg/setup-zig@v2
+        with:
+          version: 0.16.0
+
+      - name: Build Kaappi
+        run: |
+          git clone --depth 1 https://github.com/kaappi/kaappi.git /tmp/kaappi
+          cd /tmp/kaappi && zig build -Doptimize=ReleaseSafe
+
+      - name: Run tests
+        run: |
+          for f in tests/*.scm; do
+            echo "=== $f ==="
+            /tmp/kaappi/zig-out/bin/kaappi --lib-path lib "$f"
+          done

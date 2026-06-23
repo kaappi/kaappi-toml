@@ -26,5 +26,5 @@ jobs:
         run: |
           for f in tests/*.scm; do
             echo "=== $f ==="
-            /tmp/kaappi/zig-out/bin/kaappi --no-jit --lib-path lib "$f"
+            /tmp/kaappi/zig-out/bin/kaappi --lib-path lib "$f"
           done

@@ -20,11 +20,11 @@ jobs:
       - name: Build Kaappi
         run: |
           git clone --depth 1 https://github.com/kaappi/kaappi.git /tmp/kaappi
-          cd /tmp/kaappi && zig build -Doptimize=ReleaseSafe -Dmax-registers=4096
+          cd /tmp/kaappi && zig build -Doptimize=ReleaseSafe
 
       - name: Run tests
         run: |
           for f in tests/*.scm; do
             echo "=== $f ==="
-            /tmp/kaappi/zig-out/bin/kaappi --lib-path lib "$f"
+            /tmp/kaappi/zig-out/bin/kaappi --no-jit --lib-path lib "$f"
           done
